@@ -1,0 +1,87 @@
+﻿@model IEnumerable<Trash_Collector.Models.Customer>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.password)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AmountOwed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WeeklyPickupDay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SpecialPickupDay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PickupPauseDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ResumePickupDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.password)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AmountOwed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WeeklyPickupDay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SpecialPickupDay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PickupPauseDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ResumePickupDate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
