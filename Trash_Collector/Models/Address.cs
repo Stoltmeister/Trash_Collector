@@ -8,9 +8,9 @@ using System.Web;
 namespace Trash_Collector.Models
 {
     public class Address
-    {
-        [Key, ForeignKey("AspNetUsers")]
-        public int ID { get; set; }
+    {   
+        [Key]
+        public int CustomerID { get; set; }
         public int StreetNumber { get; set; }
         public string Street { get; set; }
         public int StateID { get; set; }
