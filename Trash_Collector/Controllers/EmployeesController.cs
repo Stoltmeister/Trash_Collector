@@ -20,10 +20,9 @@ namespace Trash_Collector.Controllers
             return View();
         }        
 
-        public ActionResult Create(string email)
+        public ActionResult Create()
         {
             Employee employee = new Employee();
-            employee.Email = email;
             return View(employee);
         }
 

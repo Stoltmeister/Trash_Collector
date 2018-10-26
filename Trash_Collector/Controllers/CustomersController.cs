@@ -46,7 +46,7 @@ namespace Trash_Collector.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,FirstName,LastName,email,password,Address,AmountOwed,WeeklyPickupDay,SpecialPickupDay,PickupPauseDate,ResumePickupDate")] Customer customer)
+        public ActionResult Create([Bind(Include = "ID,FirstName,LastName,email,password,Address")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -113,7 +113,7 @@ namespace Trash_Collector.Controllers
             db.Customers.Remove(customer);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
+        }        
 
         protected override void Dispose(bool disposing)
         {
