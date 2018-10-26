@@ -170,7 +170,7 @@ namespace Trash_Collector.Controllers
                     if (r[0].ToString() == "Employee")
                     {
                         string email = user.Email;
-                        RedirectToAction("Create", "Employee", email);
+                        return RedirectToAction("Create", "Employees", email);
                     }
                     //Customer Path
                     return RedirectToAction("Index", "Home");

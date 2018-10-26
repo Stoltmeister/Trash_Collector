@@ -13,6 +13,7 @@ namespace Trash_Collector.Models
         public int CustomerID { get; set; }
         public int StreetNumber { get; set; }
         public string Street { get; set; }
+        public string City { get; set; }
         public int StateID { get; set; }
         public int ZipCode { get; set; }
     }
