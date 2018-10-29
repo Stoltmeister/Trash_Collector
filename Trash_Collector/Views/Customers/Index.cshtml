@@ -5,20 +5,24 @@
 }
 
 <div class="jumbotron">
-    <h1>Customer Home</h1>
-    <p class="lead">Change your weekly pickup, schedule special pickups, pause and resume services and see billing information</p>    
+    <h1>Customer Dashboard</h1>
+    <p class="lead">Change your weekly pickup, schedule special pickups, pause and resume services and see billing information.</p>    
 </div>
 
 <div class="row">
     <div class="col-md-4">
         <h2>Weekly Pickup Day</h2>
         <p>
+            @if (Model.WeeklyPickupDay == null)
+            {
+                <text><strong>Not Currently Set</strong></text>
+            }
             @Model.WeeklyPickupDay 
         </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        <p><a class="btn btn-default" href="@Url.Action("WeeklyPickUp", "Customers", new { id = Model.ID })">Change Pickup Day &raquo;</a></p>
     </div>
     <div class="col-md-4">
-        <h2>Get more libraries</h2>
+        <h2>Special Pickups</h2>
         <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
         <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
     </div>

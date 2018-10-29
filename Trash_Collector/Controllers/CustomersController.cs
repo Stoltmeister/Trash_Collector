@@ -127,6 +127,28 @@ namespace Trash_Collector.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult WeeklyPickup(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            return View(customer);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult WeeklyPickup(Customer customer)
+        {
+            // TO DO
+            return View("Index", customer);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
