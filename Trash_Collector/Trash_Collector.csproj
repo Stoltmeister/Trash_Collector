@@ -203,25 +203,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810251455448_Setting up database, figure out roles.cs" />
-    <Compile Include="Migrations\201810251455448_Setting up database, figure out roles.Designer.cs">
-      <DependentUpon>201810251455448_Setting up database, figure out roles.cs</DependentUpon>
+    <Compile Include="Migrations\201810262013339_test.cs" />
+    <Compile Include="Migrations\201810262013339_test.Designer.cs">
+      <DependentUpon>201810262013339_test.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810251511202_Trying to add customers and employees to database.cs" />
-    <Compile Include="Migrations\201810251511202_Trying to add customers and employees to database.Designer.cs">
-      <DependentUpon>201810251511202_Trying to add customers and employees to database.cs</DependentUpon>
+    <Compile Include="Migrations\201810291221061_Changed customerid to addressid for customer table.cs" />
+    <Compile Include="Migrations\201810291221061_Changed customerid to addressid for customer table.Designer.cs">
+      <DependentUpon>201810291221061_Changed customerid to addressid for customer table.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810251855166_Added employee properties email and zipcode.cs" />
-    <Compile Include="Migrations\201810251855166_Added employee properties email and zipcode.Designer.cs">
-      <DependentUpon>201810251855166_Added employee properties email and zipcode.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810252058089_Seperate Address table and link from customer address to customer ID.cs" />
-    <Compile Include="Migrations\201810252058089_Seperate Address table and link from customer address to customer ID.Designer.cs">
-      <DependentUpon>201810252058089_Seperate Address table and link from customer address to customer ID.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810261226088_Adding City to Address.cs" />
-    <Compile Include="Migrations\201810261226088_Adding City to Address.Designer.cs">
-      <DependentUpon>201810261226088_Adding City to Address.cs</DependentUpon>
+    <Compile Include="Migrations\201810291235193_Making DateTime Properties Nullable to see if that stops error.cs" />
+    <Compile Include="Migrations\201810291235193_Making DateTime Properties Nullable to see if that stops error.Designer.cs">
+      <DependentUpon>201810291235193_Making DateTime Properties Nullable to see if that stops error.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -230,6 +222,7 @@
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\NewCustomerViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -322,20 +315,14 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810251455448_Setting up database, figure out roles.resx">
-      <DependentUpon>201810251455448_Setting up database, figure out roles.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810262013339_test.resx">
+      <DependentUpon>201810262013339_test.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810251511202_Trying to add customers and employees to database.resx">
-      <DependentUpon>201810251511202_Trying to add customers and employees to database.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810291221061_Changed customerid to addressid for customer table.resx">
+      <DependentUpon>201810291221061_Changed customerid to addressid for customer table.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810251855166_Added employee properties email and zipcode.resx">
-      <DependentUpon>201810251855166_Added employee properties email and zipcode.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810252058089_Seperate Address table and link from customer address to customer ID.resx">
-      <DependentUpon>201810252058089_Seperate Address table and link from customer address to customer ID.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810261226088_Adding City to Address.resx">
-      <DependentUpon>201810261226088_Adding City to Address.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810291235193_Making DateTime Properties Nullable to see if that stops error.resx">
+      <DependentUpon>201810291235193_Making DateTime Properties Nullable to see if that stops error.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

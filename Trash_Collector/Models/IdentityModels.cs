@@ -32,5 +32,7 @@ namespace Trash_Collector.Models
 
         public System.Data.Entity.DbSet<Trash_Collector.Models.Customer> Customers { get; set; }
         public System.Data.Entity.DbSet<Trash_Collector.Models.Employee> Employees { get; set; }
+        public System.Data.Entity.DbSet<Trash_Collector.Models.Address> Addresses{ get; set; }
+
     }
 }

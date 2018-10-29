@@ -3,10 +3,54 @@ namespace Trash_Collector.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Settingupdatabasefigureoutroles : DbMigration
+    public partial class test : DbMigration
     {
         public override void Up()
         {
+            CreateTable(
+                "dbo.Addresses",
+                c => new
+                    {
+                        CustomerID = c.Int(nullable: false, identity: true),
+                        StreetNumber = c.Int(nullable: false),
+                        Street = c.String(),
+                        City = c.String(),
+                        State = c.String(),
+                        ZipCode = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.CustomerID);
+            
+            CreateTable(
+                "dbo.Customers",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        FirstName = c.String(),
+                        LastName = c.String(),
+                        Email = c.String(),
+                        CustomerID = c.Int(nullable: false),
+                        AmountOwed = c.Double(nullable: false),
+                        WeeklyPickupDay = c.Int(nullable: false),
+                        SpecialPickupDay = c.DateTime(nullable: false),
+                        PickupPauseDate = c.DateTime(nullable: false),
+                        ResumePickupDate = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.ID)
+                .ForeignKey("dbo.Addresses", t => t.CustomerID, cascadeDelete: true)
+                .Index(t => t.CustomerID);
+            
+            CreateTable(
+                "dbo.Employees",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        FirstName = c.String(),
+                        LastName = c.String(),
+                        Email = c.String(),
+                        ZipCode = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.ID);
+            
             CreateTable(
                 "dbo.AspNetRoles",
                 c => new
@@ -83,17 +127,22 @@ namespace Trash_Collector.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.Customers", "CustomerID", "dbo.Addresses");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.Customers", new[] { "CustomerID" });
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.Employees");
+            DropTable("dbo.Customers");
+            DropTable("dbo.Addresses");
         }
     }
 }

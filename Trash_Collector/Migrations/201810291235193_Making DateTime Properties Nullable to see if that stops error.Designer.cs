@@ -7,13 +7,13 @@ namespace Trash_Collector.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class SeperateAddresstableandlinkfromcustomeraddresstocustomerID : IMigrationMetadata
+    public sealed partial class MakingDateTimePropertiesNullabletoseeifthatstopserror : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(SeperateAddresstableandlinkfromcustomeraddresstocustomerID));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(MakingDateTimePropertiesNullabletoseeifthatstopserror));
         
         string IMigrationMetadata.Id
         {
-            get { return "201810252058089_Seperate Address table and link from customer address to customer ID"; }
+            get { return "201810291235193_Making DateTime Properties Nullable to see if that stops error"; }
         }
         
         string IMigrationMetadata.Source

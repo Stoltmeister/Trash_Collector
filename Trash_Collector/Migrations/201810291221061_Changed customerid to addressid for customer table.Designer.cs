@@ -7,13 +7,13 @@ namespace Trash_Collector.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class Addedemployeepropertiesemailandzipcode : IMigrationMetadata
+    public sealed partial class Changedcustomeridtoaddressidforcustomertable : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Addedemployeepropertiesemailandzipcode));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Changedcustomeridtoaddressidforcustomertable));
         
         string IMigrationMetadata.Id
         {
-            get { return "201810251855166_Added employee properties email and zipcode"; }
+            get { return "201810291221061_Changed customerid to addressid for customer table"; }
         }
         
         string IMigrationMetadata.Source

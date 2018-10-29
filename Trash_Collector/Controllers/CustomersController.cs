@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -34,11 +36,17 @@ namespace Trash_Collector.Controllers
             }
             return View(customer);
         }
-
+        [HttpGet]
         // GET: Customers/Create
         public ActionResult Create()
         {
-            return View();
+            Address address = new Address();
+            Customer customer = new Customer();
+            NewCustomerViewModel viewmodel = new NewCustomerViewModel();
+            viewmodel.CustomerDetials = customer;
+            viewmodel.AddressInformation = address ;
+            
+            return View(viewmodel);
         }
 
         // POST: Customers/Create
@@ -46,16 +54,19 @@ namespace Trash_Collector.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,FirstName,LastName,email,password,Address")] Customer customer)
+        public ActionResult Create(NewCustomerViewModel viewmodel)
         {
-            if (ModelState.IsValid)
-            {
-                db.Customers.Add(customer);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(customer);
+            string userID = User.Identity.GetUserId();
+            var newCustomer = new Customer();            
+            newCustomer.Email = db.Users.Where(u => u.Id == userID).Single().Email;
+            //maybe too many lines
+            newCustomer.FirstName = viewmodel.CustomerDetials.FirstName;
+            newCustomer.LastName = viewmodel.CustomerDetials.LastName;
+            db.Addresses.Add(viewmodel.AddressInformation);
+            newCustomer.AddressID = db.Addresses.Count();
+            db.Customers.Add(newCustomer);
+            db.SaveChanges();
+            return RedirectToAction("Index");            
         }
 
         // GET: Customers/Edit/5
@@ -113,7 +124,7 @@ namespace Trash_Collector.Controllers
             db.Customers.Remove(customer);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }        
+        }
 
         protected override void Dispose(bool disposing)
         {
