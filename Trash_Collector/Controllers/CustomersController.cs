@@ -12,14 +12,15 @@ using Trash_Collector.Models;
 
 namespace Trash_Collector.Controllers
 {
+    //[Authorize(Roles = "Customer")]
     public class CustomersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Customers
-        public ActionResult Index()
+        public ActionResult Index(Customer currentCustomer)
         {
-            return View(db.Customers.ToList());
+            return View(currentCustomer);
         }
 
         // GET: Customers/Details/5
@@ -44,7 +45,7 @@ namespace Trash_Collector.Controllers
             Customer customer = new Customer();
             NewCustomerViewModel viewmodel = new NewCustomerViewModel();
             viewmodel.CustomerDetials = customer;
-            viewmodel.AddressInformation = address ;
+            viewmodel.AddressInformation = address;
             
             return View(viewmodel);
         }
@@ -61,12 +62,12 @@ namespace Trash_Collector.Controllers
             newCustomer.Email = db.Users.Where(u => u.Id == userID).Single().Email;
             //maybe too many lines
             newCustomer.FirstName = viewmodel.CustomerDetials.FirstName;
-            newCustomer.LastName = viewmodel.CustomerDetials.LastName;
-            db.Addresses.Add(viewmodel.AddressInformation);
-            newCustomer.AddressID = db.Addresses.Count();
+            newCustomer.LastName = viewmodel.CustomerDetials.LastName;            
             db.Customers.Add(newCustomer);
+            db.Addresses.Add(viewmodel.AddressInformation);            
+            //newCustomer.AddressID = db.Addresses.Where(a => a == viewmodel.AddressInformation).Single().CustomerID;
             db.SaveChanges();
-            return RedirectToAction("Index");            
+            return RedirectToAction("Index", newCustomer);            
         }
 
         // GET: Customers/Edit/5
