@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -10,10 +11,14 @@ using Trash_Collector.Models;
 
 namespace Trash_Collector.Controllers
 {
-    [Authorize(Roles = "Employee")]
+    //[Authorize(Roles = "Employee")]
     public class EmployeesController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db;
+        public EmployeesController()
+        {
+            db = new ApplicationDbContext();
+        }
 
         // GET: Employees
         public ActionResult Index(Employee currentEmployee)
@@ -34,6 +39,8 @@ namespace Trash_Collector.Controllers
         {
             if (ModelState.IsValid)
             {
+                string userID = User.Identity.GetUserId();
+                employee.Email = db.Users.Where(u => u.Id == userID).Single().Email;
                 db.Employees.Add(employee);
                 db.SaveChanges();
                 return RedirectToAction("Index");
