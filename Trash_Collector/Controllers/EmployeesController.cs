@@ -16,9 +16,10 @@ namespace Trash_Collector.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Employees
-        public ActionResult Index()
+        public ActionResult Index(Employee currentEmployee)
         {
-            return View();
+            return View(currentEmployee);
+            // model needs to be updated in the view
         }        
 
         public ActionResult Create()

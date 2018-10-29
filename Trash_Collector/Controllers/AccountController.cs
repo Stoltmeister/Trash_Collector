@@ -54,6 +54,22 @@ namespace Trash_Collector.Controllers
             }
         }
 
+        //public static class SharedLogic
+        //{
+        //    public static bool IsEmployee()
+        //    {
+        //        var r = UserManager.GetRoles(user.Id);
+        //        if (r[0].ToString() == "Employee")
+        //        {
+        //            return true;
+        //        }
+        //        else if (r[0].ToString() == "Customer")
+        //        {
+        //            return RedirectToAction("Create", "Customers");
+        //        }
+        //    }
+        //}
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -166,6 +182,7 @@ namespace Trash_Collector.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
+                    // Below can be a global method?
                     var r = UserManager.GetRoles(user.Id);
                     if (r[0].ToString() == "Employee")
                     {                        
@@ -368,7 +385,22 @@ namespace Trash_Collector.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Manage");
+                var r = UserManager.GetRoles(User.Identity.GetUserId());
+                string userName = User.Identity.GetUserName();
+                if (r[0].ToString() == "Employee")
+                {
+                    var currentEmployee = context.Employees.Where(e => e.Email == userName).Single();
+                    return RedirectToAction("Index", "Employees", currentEmployee);
+                }
+                else if (r[0].ToString() == "Customer")
+                {
+                    var currentCustomer = context.Customers.Where(c => c.Email == userName).Single();
+                    return RedirectToAction("Index", "Customers", currentCustomer);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
             if (ModelState.IsValid)

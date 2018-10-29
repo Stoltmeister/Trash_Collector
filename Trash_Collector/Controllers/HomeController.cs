@@ -1,16 +1,38 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Trash_Collector.Models;
 
 namespace Trash_Collector.Controllers
 {
     public class HomeController : Controller
     {
+        ApplicationDbContext context;
+
+        public HomeController()
+        {
+            context = new ApplicationDbContext();
+        }
         public ActionResult Index()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                string userName = User.Identity.GetUserName();
+                if (User.IsInRole("Customer"))
+                {                    
+                    var currentCustomer = context.Customers.Where(c => c.Email == userName).Single();
+                    return RedirectToAction("Index", "Customers", currentCustomer);
+                }
+                else if (User.IsInRole("Employee"))
+                {
+                    var currentEmployee = context.Employees.Where(e => e.Email == userName).Single();
+                    return RedirectToAction("Index", "Employees", currentEmployee);
+                }
+            }
+                return View();
         }
 
         public ActionResult About()
