@@ -19,8 +19,8 @@ namespace Trash_Collector.Controllers
 
         // GET: Customers
         public ActionResult Index(Customer currentCustomer)
-        {
-            return View(currentCustomer);
+        {            
+            return View(currentCustomer);            
         }
 
         // GET: Customers/Details/5
@@ -145,8 +145,10 @@ namespace Trash_Collector.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult WeeklyPickup(Customer customer)
         {
-            // TO DO
-            return View("Index", customer);
+            var currentCustomer = db.Customers.Where(c => c.ID == customer.ID).Single();
+            currentCustomer.WeeklyPickupDay = customer.WeeklyPickupDay;
+            db.SaveChanges();
+            return RedirectToAction("Index", currentCustomer);
         }
 
         protected override void Dispose(bool disposing)
