@@ -22,14 +22,15 @@ namespace Trash_Collector.Controllers
             {
                 string userName = User.Identity.GetUserName();
                 if (User.IsInRole("Customer"))
-                {                    
+                {
                     var currentCustomer = context.Customers.Where(c => c.Email == userName).Single();
-                    return RedirectToAction("Index", "Customers", currentCustomer);
+                    return RedirectToAction("Index", "Customers", new { id = (int?)currentCustomer.ID });
+
                 }
                 else if (User.IsInRole("Employee"))
                 {
                     var currentEmployee = context.Employees.Where(e => e.Email == userName).Single();
-                    return RedirectToAction("Index", "Employees", currentEmployee);
+                    return RedirectToAction("Index", "Employees", new { id = (int?)currentEmployee.ID });
                 }
             }
                 return View();

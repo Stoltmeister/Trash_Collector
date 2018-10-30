@@ -21,9 +21,18 @@ namespace Trash_Collector.Controllers
         }
 
         // GET: Employees
-        public ActionResult Index(Employee currentEmployee)
+        public ActionResult Index(int? id)
         {
-            return View(currentEmployee);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Employee employee = db.Employees.Find(id);
+            if (employee == null)
+            {
+                return HttpNotFound();
+            }            
+            return View(employee);
             // model needs to be updated in the view
         }        
 

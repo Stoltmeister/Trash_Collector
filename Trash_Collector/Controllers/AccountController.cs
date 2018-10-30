@@ -390,12 +390,12 @@ namespace Trash_Collector.Controllers
                 if (r[0].ToString() == "Employee")
                 {
                     var currentEmployee = context.Employees.Where(e => e.Email == userName).Single();
-                    return RedirectToAction("Index", "Employees", currentEmployee);
+                    return RedirectToAction("Index", "Employees", currentEmployee.ID);
                 }
                 else if (r[0].ToString() == "Customer")
                 {
                     var currentCustomer = context.Customers.Where(c => c.Email == userName).Single();
-                    return RedirectToAction("Index", "Customers", currentCustomer);
+                    return RedirectToAction("Index", "Customers", currentCustomer.ID);
                 }
                 else
                 {

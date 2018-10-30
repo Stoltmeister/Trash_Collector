@@ -18,9 +18,23 @@ namespace Trash_Collector.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Customers
-        public ActionResult Index(Customer currentCustomer)
-        {            
-            return View(currentCustomer);            
+        //public ActionResult Index(Customer currentCustomer)
+        //{            
+        //    return View(currentCustomer);            
+        //}
+
+        public ActionResult Index(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            return View(customer);
         }
 
         // GET: Customers/Details/5
@@ -67,7 +81,7 @@ namespace Trash_Collector.Controllers
             db.Addresses.Add(viewmodel.AddressInformation);            
             //newCustomer.AddressID = db.Addresses.Where(a => a == viewmodel.AddressInformation).Single().CustomerID;
             db.SaveChanges();
-            return RedirectToAction("Index", newCustomer);            
+            return RedirectToAction("Index", newCustomer.ID);            
         }
 
         // GET: Customers/Edit/5
@@ -96,7 +110,7 @@ namespace Trash_Collector.Controllers
             {
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", customer.ID);
             }
             return View(customer);
         }
@@ -124,7 +138,7 @@ namespace Trash_Collector.Controllers
             Customer customer = db.Customers.Find(id);
             db.Customers.Remove(customer);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", customer.ID);
         }
 
         public ActionResult WeeklyPickup(int? id)
@@ -148,7 +162,7 @@ namespace Trash_Collector.Controllers
             var currentCustomer = db.Customers.Where(c => c.ID == customer.ID).Single();
             currentCustomer.WeeklyPickupDay = customer.WeeklyPickupDay;
             db.SaveChanges();
-            return RedirectToAction("Index", currentCustomer);
+            return RedirectToAction("Index", currentCustomer.ID);
         }
 
         public ActionResult SpecialPickup(int? id)
@@ -173,9 +187,23 @@ namespace Trash_Collector.Controllers
             currentCustomer.SpecialPickupDay = customer.SpecialPickupDay;
             currentCustomer.AmountOwed += 30;
             db.SaveChanges();
-            return RedirectToAction("Index", currentCustomer);
+            return RedirectToAction("Index", currentCustomer.ID);
         }
 
+        public ActionResult Billing(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            return View(customer);
+        }
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)
