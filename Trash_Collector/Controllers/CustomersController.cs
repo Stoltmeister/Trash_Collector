@@ -203,7 +203,32 @@ namespace Trash_Collector.Controllers
             }
             return View(customer);
         }
-        
+
+        public ActionResult PauseService(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            return View(customer);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PauseService(Customer customer)
+        {
+            var currentCustomer = db.Customers.Where(c => c.ID == customer.ID).Single();
+            currentCustomer.PickupPauseDate = customer.PickupPauseDate;
+            currentCustomer.ResumePickupDate = customer.ResumePickupDate;
+            db.SaveChanges();
+            return RedirectToAction("Index", new { id = customer.ID });
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -34,25 +34,27 @@ namespace Trash_Collector.Controllers
             }
             EmployeeCustomersViewModel employeeCustomers = new EmployeeCustomersViewModel();
             List<Customer> todaysCustomers = new List<Customer>();
-            var allCustomers = db.Customers.ToList(); //multiple datareaders open at once unless I do this first
+            List<Customer> PaidCustomers = new List<Customer>();
+            var allCustomers = db.Customers.ToList(); 
+
             foreach (Customer c in allCustomers)
             {       //Cant do c.Address directly?
                 if (db.Addresses.Where(a => a.CustomerID == c.ID).Single().ZipCode == employee.ZipCode)
                 {
-                    if (c.WeeklyPickupDay == DateTime.Today.DayOfWeek)
+                    if (c.WeeklyPickupDay == DateTime.Today.DayOfWeek && DateTime.Today.CompareTo(c.PickupPauseDate) <= 0)
                     {
                         todaysCustomers.Add(c);
                     }
                     else if (c.SpecialPickupDay == DateTime.Today)
                     {
-                        //Test this to see if time messes it up
+                        //Test this to see if time messes it up, This overrides pause dates because they likely just want a special pickup but not weekly
                         todaysCustomers.Add(c);
                     }
-                }
-                
+                }                
             }
             employeeCustomers.Employee = employee;
             employeeCustomers.LocalCustomers = todaysCustomers;
+            employeeCustomers.ChargedCustomers = PaidCustomers;
             return View(employeeCustomers);
             // model needs to be updated in the view
         }        

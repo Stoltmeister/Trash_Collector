@@ -10,33 +10,49 @@
 </div>
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Weekly Pickup Day</h2>
+    <div class="col-md-3">
+        <h2>Weekly Pickup</h2>
         <p>
             @if (Model.WeeklyPickupDay == null)
             {
                 <text><strong>Not Currently Set</strong></text>
             }
-            <b>@Model.WeeklyPickupDay</b> 
+            <b>@Model.WeeklyPickupDay</b>
         </p>
         <p><a class="btn btn-default" href="@Url.Action("WeeklyPickUp", "Customers", new { id = Model.ID })">Change Pickup Day &raquo;</a></p>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <h2>Special Pickups</h2>
         <p>
             @if (Model.SpecialPickupDay == null)
             {
                 <text><strong>No Special Pickups Scheduled ($13 Each)</strong></text>
             }
-            <b>@Model.SpecialPickupDay</b>
-</p>
+            <b>@Model.SpecialPickupDay.Value.ToShortDateString()</b>
+        </p>
         <p><a class="btn btn-default" href="@Url.Action("SpecialPickup", "Customers", new { id = Model.ID })">Schedule a Pickup &raquo;</a></p>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <h2>Billing</h2>
         <p>
-           <b>Monthly Balance: $@Model.AmountOwed</b>          
+            <b>Monthly Balance: $@Model.AmountOwed</b>
         </p>
         <p><a class="btn btn-default" href="@Url.Action("Billing", "Customers", new { id = Model.ID })">Details &raquo;</a></p>
+    </div>
+    <div class="col-md-3">
+        <h2>Pause Service</h2>
+        <p>
+            @if (Model.PickupPauseDate == null)
+            {
+                <text><strong>No Service Pauses Scheduled</strong></text>
+            }
+            else
+            {
+                <text><b>Service Pausing: @Model.PickupPauseDate.Value.ToShortDateString()</b></text>
+                <br />
+                <text><b>Service Resuming: @Model.ResumePickupDate.Value.ToShortDateString()</b></text>
+            }
+        </p>
+        <p><a class="btn btn-default" href="@Url.Action("PauseService", "Customers", new { id = Model.ID })">Add or Change &raquo;</a></p>
     </div>
 </div>
