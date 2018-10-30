@@ -4,27 +4,26 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<h2>Todays Pickups</h2>
 <table class="table">
-    <tr>
-        <th></th>
-    </tr>
+    
 
 @foreach (var c in Model.LocalCustomers) {
     <tr>
         <td>
+            <text>@c.FirstName  @c.LastName</text>
+            <br />
+            <text>@c.Address.StreetNumber @c.Address.Street @c.Address.City</text>
+            <br />
             @if (Model.ChargedCustomers.Contains(c))
             {
                 <text>Customer Charged</text>
+                <br />
             }
             else
             {
-                @Html.ActionLink("Mark Complete", "WeeklyBill", new { id = c.ID })
-            }             
+                @Html.ActionLink("Mark Complete", "WeeklyBill", new { id = c.ID })              
+            }
         </td>
     </tr>
 }

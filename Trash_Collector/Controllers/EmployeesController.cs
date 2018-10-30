@@ -41,9 +41,12 @@ namespace Trash_Collector.Controllers
             {       //Cant do c.Address directly?
                 if (db.Addresses.Where(a => a.CustomerID == c.ID).Single().ZipCode == employee.ZipCode)
                 {
-                    if (c.WeeklyPickupDay == DateTime.Today.DayOfWeek && DateTime.Today.CompareTo(c.PickupPauseDate) <= 0)
+                    if (c.WeeklyPickupDay == DateTime.Today.DayOfWeek)
                     {
-                        todaysCustomers.Add(c);
+                        if (c.PickupPauseDate == null || DateTime.Today.CompareTo(c.PickupPauseDate) <= 0)
+                        {
+                            todaysCustomers.Add(c);
+                        }
                     }
                     else if (c.SpecialPickupDay == DateTime.Today)
                     {
