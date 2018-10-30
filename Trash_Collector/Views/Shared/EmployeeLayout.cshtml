@@ -26,9 +26,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Employees")</li>
-                    <li>@Html.ActionLink("Local Customers", "About", "Employees")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Employees")</li>
+                    <li>@Html.ActionLink("Home", "Index", new { id = Model.Employee.ID })</li>
+                    <li>@Html.ActionLink("Map View", "MapView", new { id = Model.Employee.ID })</li>
+                    <li>@Html.ActionLink("Account Information", "About", new { id = Model.Employee.ID })</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
