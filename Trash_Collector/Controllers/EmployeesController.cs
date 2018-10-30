@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -83,7 +84,8 @@ namespace Trash_Collector.Controllers
 
             return View(employee);
         }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult WeeklyBill(int? id)
         {
             if (id == null)
@@ -96,7 +98,7 @@ namespace Trash_Collector.Controllers
                 return HttpNotFound();
             }
             customer.AmountOwed += 7.5;
-            return RedirectToAction("Index", new { id = User.Identity.GetUserId() });
+            return RedirectToAction("Index", new { id = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId()).Id });
         }
 
         // What dis below?
