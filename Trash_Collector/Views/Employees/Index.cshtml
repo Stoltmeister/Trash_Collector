@@ -17,9 +17,14 @@
 @foreach (var c in Model.LocalCustomers) {
     <tr>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @if (Model.ChargedCustomers.Contains(c))
+            {
+                <text>Customer Charged</text>
+            }
+            else
+            {
+                @Html.ActionLink("Mark Complete", "WeeklyBill", new { id = c.ID })
+            }             
         </td>
     </tr>
 }

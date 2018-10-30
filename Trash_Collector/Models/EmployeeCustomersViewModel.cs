@@ -9,5 +9,6 @@ namespace Trash_Collector.Models
     {
         public Employee Employee { get; set; }
         public List<Customer> LocalCustomers { get; set; }
+        public List<Customer> ChargedCustomers { get; set; }
     }
 }

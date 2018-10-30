@@ -37,10 +37,19 @@ namespace Trash_Collector.Controllers
             var allCustomers = db.Customers.ToList(); //multiple datareaders open at once unless I do this first
             foreach (Customer c in allCustomers)
             {       //Cant do c.Address directly?
-                if (db.Addresses.Where(a => a.CustomerID == c.ID).Single().ZipCode == employee.ZipCode && c.WeeklyPickupDay == DateTime.Today.DayOfWeek)
+                if (db.Addresses.Where(a => a.CustomerID == c.ID).Single().ZipCode == employee.ZipCode)
                 {
-                    todaysCustomers.Add(c);
+                    if (c.WeeklyPickupDay == DateTime.Today.DayOfWeek)
+                    {
+                        todaysCustomers.Add(c);
+                    }
+                    else if (c.SpecialPickupDay == DateTime.Today)
+                    {
+                        //Test this to see if time messes it up
+                        todaysCustomers.Add(c);
+                    }
                 }
+                
             }
             employeeCustomers.Employee = employee;
             employeeCustomers.LocalCustomers = todaysCustomers;
@@ -68,6 +77,21 @@ namespace Trash_Collector.Controllers
             }
 
             return View(employee);
+        }
+
+        public ActionResult WeeklyBill(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            customer.AmountOwed += 7.5;
+            return RedirectToAction("Index", new { id = User.Identity.GetUserId() });
         }
 
         // What dis below?
