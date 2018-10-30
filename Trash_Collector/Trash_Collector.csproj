@@ -215,11 +215,16 @@
     <Compile Include="Migrations\201810291235193_Making DateTime Properties Nullable to see if that stops error.Designer.cs">
       <DependentUpon>201810291235193_Making DateTime Properties Nullable to see if that stops error.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810301520292_test1.cs" />
+    <Compile Include="Migrations\201810301520292_test1.Designer.cs">
+      <DependentUpon>201810301520292_test1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\EmployeeCustomersViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\NewCustomerViewModel.cs" />
@@ -335,7 +340,6 @@
     <Content Include="Views\Customers\Details.cshtml" />
     <Content Include="Views\Customers\Edit.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\Employees\Index.cshtml" />
     <Content Include="Views\Employees\Create.cshtml" />
     <Content Include="Views\Shared\CustomerLayout.cshtml" />
     <Content Include="Views\Shared\EmployeeLayout.cshtml" />
@@ -343,6 +347,7 @@
     <Content Include="Views\Customers\Billing.cshtml" />
     <Content Include="Views\Customers\WeeklyPickup.cshtml" />
     <Content Include="Views\Customers\SpecialPickup.cshtml" />
+    <Content Include="Views\Employees\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -369,6 +374,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810291235193_Making DateTime Properties Nullable to see if that stops error.resx">
       <DependentUpon>201810291235193_Making DateTime Properties Nullable to see if that stops error.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810301520292_test1.resx">
+      <DependentUpon>201810301520292_test1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

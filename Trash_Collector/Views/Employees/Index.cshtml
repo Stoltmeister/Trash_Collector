@@ -1,4 +1,4 @@
-﻿@model Trash_Collector.Models.Employee
+﻿@model Trash_Collector.Models.EmployeeCustomersViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -6,4 +6,22 @@
 
 <h2>Index</h2>
 
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th></th>
+    </tr>
 
+@foreach (var c in Model.LocalCustomers) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

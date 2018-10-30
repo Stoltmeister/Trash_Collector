@@ -31,8 +31,20 @@ namespace Trash_Collector.Controllers
             if (employee == null)
             {
                 return HttpNotFound();
-            }            
-            return View(employee);
+            }
+            EmployeeCustomersViewModel employeeCustomers = new EmployeeCustomersViewModel();
+            List<Customer> todaysCustomers = new List<Customer>();
+            var allCustomers = db.Customers.ToList(); //multiple datareaders open at once unless I do this first
+            foreach (Customer c in allCustomers)
+            {       //Cant do c.Address directly?
+                if (db.Addresses.Where(a => a.CustomerID == c.ID).Single().ZipCode == employee.ZipCode && c.WeeklyPickupDay == DateTime.Today.DayOfWeek)
+                {
+                    todaysCustomers.Add(c);
+                }
+            }
+            employeeCustomers.Employee = employee;
+            employeeCustomers.LocalCustomers = todaysCustomers;
+            return View(employeeCustomers);
             // model needs to be updated in the view
         }        
 
