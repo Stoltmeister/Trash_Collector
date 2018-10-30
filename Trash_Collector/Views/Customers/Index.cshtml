@@ -17,7 +17,7 @@
             {
                 <text><strong>Not Currently Set</strong></text>
             }
-            @Model.WeeklyPickupDay 
+            <b>@Model.WeeklyPickupDay</b> 
         </p>
         <p><a class="btn btn-default" href="@Url.Action("WeeklyPickUp", "Customers", new { id = Model.ID })">Change Pickup Day &raquo;</a></p>
     </div>
@@ -26,15 +26,17 @@
         <p>
             @if (Model.SpecialPickupDay == null)
             {
-                <text><strong>No Special Pickups Scheduled</strong></text>
+                <text><strong>No Special Pickups Scheduled ($13 Each)</strong></text>
             }
-            @Model.SpecialPickupDay
-        </p>
-        <p><a class="btn btn-default" href="@Url.Action("SpecialPickup", "Customers", new { id = Model.ID })">Change Pickup Day &raquo;</a></p>
+            <b>@Model.SpecialPickupDay</b>
+</p>
+        <p><a class="btn btn-default" href="@Url.Action("SpecialPickup", "Customers", new { id = Model.ID })">Schedule a Pickup &raquo;</a></p>
     </div>
     <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+        <h2>Billing</h2>
+        <p>
+           <b>Monthly Balance: $@Model.AmountOwed</b>          
+        </p>
         <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
     </div>
 </div>
