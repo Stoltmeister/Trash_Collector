@@ -4,21 +4,22 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Todays Pickups</h2>
+<h2>Selected Day's Pickups</h2>
 
-    
-    @for (int i = 0; i < Model.LocalCustomers.Count; i++)
-    {
+@for (int i = 0; i < Model.LocalCustomers.Count; i++)
+{
+    <div>
         <div>
-            <div>
-                <text>@Model.LocalCustomers[i].FirstName  @Model.LocalCustomers[i].LastName</text>
-                <br />
-                <text>@Model.LocalCustomers[i].Address.StreetNumber @Model.LocalCustomers[i].Address.Street @Model.LocalCustomers[i].Address.City</text>
-                <br />
-                @Html.ActionLink("Map View", "Map View", new { id = Model.LocalCustomers[i].ID }) &nbsp;&nbsp;&nbsp;&nbsp;
-                @Html.ActionLink("Mark Complete", "Pickup", new { id = Model.LocalCustomers[i].ID })                
-            </div>
+            <text>@Model.LocalCustomers[i].FirstName  @Model.LocalCustomers[i].LastName</text>
+            <br />
+            <text>@Model.LocalCustomers[i].Address.StreetNumber @Model.LocalCustomers[i].Address.Street @Model.LocalCustomers[i].Address.City</text>
+            <br />
+            @Html.ActionLink("Map View", "Map View", new { id = Model.LocalCustomers[i].ID }) &nbsp;&nbsp;&nbsp;&nbsp;
+            @Html.ActionLink("Mark Complete", "Pickup", new { id = Model.LocalCustomers[i].ID })
         </div>
-        <hr />
-    }
+    </div>
+    <hr />
+}
+
+@Html.ActionLink("Check Different Days", "GetDay")
 

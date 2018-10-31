@@ -21,6 +21,12 @@ namespace Trash_Collector.Controllers
             db = new ApplicationDbContext();
         }
 
+        public static DateTime GetNextWeekday(DateTime start, DayOfWeek day)
+        {            
+            int daysToAdd = ((int)day - (int)start.DayOfWeek + 7) % 7;
+            return start.AddDays(daysToAdd);
+        }
+
         public List<Customer> GetDaysCustomers(DateTime day, int zipCode)
         {
             List<Customer> todaysCustomers = new List<Customer>();
@@ -63,28 +69,7 @@ namespace Trash_Collector.Controllers
                 return HttpNotFound();
             }
             EmployeeCustomersViewModel employeeCustomers = new EmployeeCustomersViewModel();
-            List<Customer> todaysCustomers = new List<Customer>();
-            List<Customer> ChargedCustomers = new List<Customer>();
-            var allCustomers = db.Customers.ToList(); 
-
-            foreach (Customer c in allCustomers)
-            {      
-                if (db.Addresses.Where(a => a.CustomerID == c.ID).Single().ZipCode == employee.ZipCode)
-                {
-                    if (c.WeeklyPickupDay == DateTime.Today.DayOfWeek)
-                    {
-                        if (c.LastPickupDay == null || c.LastPickupDay.Value.Date < DateTime.Today.Date && c.PickupPauseDate == null || DateTime.Today.CompareTo(c.PickupPauseDate) <= 0)
-                        {
-                            todaysCustomers.Add(c);
-                        }
-                    }
-                    else if (c.SpecialPickupDay == DateTime.Today)
-                    {
-                        //Test this to see if time messes it up, This overrides pause dates because they likely just want a special pickup but not weekly
-                        todaysCustomers.Add(c);
-                    }
-                }                
-            }
+            List<Customer> todaysCustomers = GetDaysCustomers(DateTime.Today, employee.ZipCode);            
             employeeCustomers.Employee = employee;
             employeeCustomers.LocalCustomers = todaysCustomers;            
             return View(employeeCustomers);            
@@ -106,6 +91,29 @@ namespace Trash_Collector.Controllers
             db.SaveChanges();
             return View(employeeCustomersViewModel);
         }
+
+        public ActionResult DayCustomers(DayOfWeek day)
+        {
+            DateTime dayToCheck = GetNextWeekday(DateTime.Today, day);
+            string userId = User.Identity.GetUserId();
+            var user = db.Users.Where(u => u.Id == userId).Single();
+            int? id = db.Employees.Where(e => e.Email == user.Email).Single().ID;
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Employee employee = db.Employees.Find(id);
+            if (employee == null)
+            {
+                return HttpNotFound();
+            }
+            EmployeeCustomersViewModel employeeCustomers = new EmployeeCustomersViewModel();
+            List<Customer> todaysCustomers = GetDaysCustomers(dayToCheck, employee.ZipCode);
+            employeeCustomers.Employee = employee;
+            employeeCustomers.LocalCustomers = todaysCustomers;
+            return View("Index",employeeCustomers);
+        }
+
         [HttpGet]
         public ActionResult Pickup(int? id)
         {
@@ -130,6 +138,20 @@ namespace Trash_Collector.Controllers
             customer.AmountOwed += 7.5;
             db.SaveChanges();            
             return RedirectToAction("Index");
+        }
+
+        public ActionResult GetDay()
+        {
+            Customer dayCustomer = new Customer();
+            return View(dayCustomer);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GetDay(Customer dayCustomer)
+        {
+            DayOfWeek SelectedDay = (DayOfWeek)dayCustomer.WeeklyPickupDay;
+            return RedirectToAction("DayCustomers", new { day = SelectedDay });
         }
 
 
