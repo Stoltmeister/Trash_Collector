@@ -24,8 +24,9 @@ namespace Trash_Collector.Controllers
         // GET: Employees
         public ActionResult Start()
         {
-           var currentUser = db.Users.Where(u => u.Id == User.Identity.GetUserId()).Single();            
-           int? id = db.Employees.Where(e => e.Email == currentUser.Email).Single().ID;           
+           string userId = User.Identity.GetUserId();
+           var user = db.Users.Where(u => u.Id == userId).Single();
+           int? id = db.Employees.Where(e => e.Email == user.Email).Single().ID;           
            return RedirectToAction("Index", id);
         }
         public ActionResult Index(int? id)
@@ -105,7 +106,7 @@ namespace Trash_Collector.Controllers
             customer = db.Customers.Find(customer.ID);
             customer.LastPickupDay = DateTime.Today.Date;
             customer.AmountOwed += 7.5;
-            db.SaveChanges();
+            db.SaveChanges();            
             return RedirectToAction("Start");
         }
 
