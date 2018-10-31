@@ -393,7 +393,7 @@ namespace Trash_Collector.Controllers
                     EmployeeCustomersViewModel ecv = new EmployeeCustomersViewModel();
                     ecv.Employee = emp;
                     var currentEmployee = context.Employees.Where(e => e.Email == userName).Single();
-                    return RedirectToAction("Index", "Employees", currentEmployee.ID);
+                    return RedirectToAction("Index", "Employees");
                 }
                 else if (r[0].ToString() == "Customer")
                 {

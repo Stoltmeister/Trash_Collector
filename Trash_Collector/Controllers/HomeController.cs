@@ -30,7 +30,7 @@ namespace Trash_Collector.Controllers
                 else if (User.IsInRole("Employee"))
                 {
                     var currentEmployee = context.Employees.Where(e => e.Email == userName).Single();
-                    return RedirectToAction("Index", "Employees", new { id = (int?)currentEmployee.ID });
+                    return RedirectToAction("Index", "Employees");
                 }
             }
                 return View();

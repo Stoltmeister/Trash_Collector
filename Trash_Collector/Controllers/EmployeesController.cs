@@ -125,7 +125,7 @@ namespace Trash_Collector.Controllers
                 employee.Email = db.Users.Where(u => u.Id == userID).Single().Email;
                 db.Employees.Add(employee);
                 db.SaveChanges();
-                return RedirectToAction("Index", employee.ID);
+                return RedirectToAction("Index");
             }
 
             return View(employee);
