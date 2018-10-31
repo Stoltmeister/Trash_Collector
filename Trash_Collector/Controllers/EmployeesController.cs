@@ -21,16 +21,12 @@ namespace Trash_Collector.Controllers
             db = new ApplicationDbContext();
         }
 
-        // GET: Employees
-        public ActionResult Start()
+        // GET: Employees        
+        public ActionResult Index()
         {
-           string userId = User.Identity.GetUserId();
-           var user = db.Users.Where(u => u.Id == userId).Single();
-           int? id = db.Employees.Where(e => e.Email == user.Email).Single().ID;           
-           return RedirectToAction("Index", id);
-        }
-        public ActionResult Index(int? id)
-        {
+            string userId = User.Identity.GetUserId();
+            var user = db.Users.Where(u => u.Id == userId).Single();
+            int? id = db.Employees.Where(e => e.Email == user.Email).Single().ID;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -99,15 +95,15 @@ namespace Trash_Collector.Controllers
 
             return RedirectToAction("CompletePickup", customer);
         }
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
+
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult CompletePickup(Customer customer)
         {
             customer = db.Customers.Find(customer.ID);
             customer.LastPickupDay = DateTime.Today.Date;
             customer.AmountOwed += 7.5;
             db.SaveChanges();            
-            return RedirectToAction("Start");
+            return RedirectToAction("Index");
         }
 
 
