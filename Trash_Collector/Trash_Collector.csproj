@@ -219,6 +219,10 @@
     <Compile Include="Migrations\201810311301556_adding bool picked up to customer.Designer.cs">
       <DependentUpon>201810311301556_adding bool picked up to customer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810311509188_LastPickupDay added instead of isPickedup.cs" />
+    <Compile Include="Migrations\201810311509188_LastPickupDay added instead of isPickedup.Designer.cs">
+      <DependentUpon>201810311509188_LastPickupDay added instead of isPickedup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
@@ -378,6 +382,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810311301556_adding bool picked up to customer.resx">
       <DependentUpon>201810311301556_adding bool picked up to customer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810311509188_LastPickupDay added instead of isPickedup.resx">
+      <DependentUpon>201810311509188_LastPickupDay added instead of isPickedup.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

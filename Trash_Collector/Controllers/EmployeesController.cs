@@ -24,11 +24,12 @@ namespace Trash_Collector.Controllers
         // GET: Employees
         public ActionResult Index(int? id)
         {
+            var currentUser = db.Users.Where(u => u.Id == User.Identity.GetUserId()).Single();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = db.Employees.Find(id);
+            Employee employee = db.Employees.Where(e => e.Email == currentUser.Email).Single();
             if (employee == null)
             {
                 return HttpNotFound();
@@ -42,7 +43,7 @@ namespace Trash_Collector.Controllers
             {       //Cant do c.Address directly?
                 if (db.Addresses.Where(a => a.CustomerID == c.ID).Single().ZipCode == employee.ZipCode)
                 {
-                    if (c.WeeklyPickupDay == DateTime.Today.DayOfWeek)
+                    if (c.WeeklyPickupDay == DateTime.Today.DayOfWeek && c.LastPickupDay.Value.Date < DateTime.Today.Date)
                     {
                         if (c.PickupPauseDate == null || DateTime.Today.CompareTo(c.PickupPauseDate) <= 0)
                         {
@@ -68,17 +69,36 @@ namespace Trash_Collector.Controllers
         {
             foreach (Customer c in employeeCustomersViewModel.LocalCustomers)
             {
-                if (c.IsPickedUp)
+                if (c.LastPickupDay.Value.Date < DateTime.Today.Date)
                 {
                     employeeCustomersViewModel.LocalCustomers.Remove(c);
                     employeeCustomersViewModel.ChargedCustomers.Add(c);
                     db.Customers.Find(c.ID).AmountOwed += 7.5;
-                    db.Customers.Find(c.ID).IsPickedUp = true;
+                    db.Customers.Find(c.ID).LastPickupDay = DateTime.Today.Date;
                 }
-            }            
+            }
             db.SaveChanges();
             return View(employeeCustomersViewModel);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Pickup(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            customer.LastPickupDay = DateTime.Today.Date;
+            db.SaveChanges();
+            RedirectToAction("Index");
+        }
+
 
         public ActionResult Create()
         {

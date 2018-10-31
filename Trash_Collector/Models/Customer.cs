@@ -29,7 +29,7 @@ namespace Trash_Collector.Models
         public DateTime? PickupPauseDate { get; set; }
         [Display(Name = "Pickup Resuming Date")]
         public DateTime? ResumePickupDate { get; set; }
-        [Display (Name = "Weekly Pickup Status")]
-        public bool IsPickedUp { get; set; }
+        [Display (Name = "Last Pickup Day")]
+        public DateTime? LastPickupDay { get; set; }
     }
 }
