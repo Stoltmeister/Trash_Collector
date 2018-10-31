@@ -14,15 +14,9 @@
                 <br />
                 <text>@Model.LocalCustomers[i].Address.StreetNumber @Model.LocalCustomers[i].Address.Street @Model.LocalCustomers[i].Address.City</text>
                 <br />
-                @Html.ActionLink("Mark Complete", "Pickup", new { id = Model.LocalCustomers[i].ID})
+                @Html.ActionLink("Mark Complete", "Pickup", new { id = Model.LocalCustomers[i].ID})                
             </div>
         </div>
 
     }
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Submit" />
-        </div>
-    </div>
 
-}

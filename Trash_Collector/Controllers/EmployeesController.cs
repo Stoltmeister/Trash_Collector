@@ -22,14 +22,19 @@ namespace Trash_Collector.Controllers
         }
 
         // GET: Employees
+        public ActionResult Start()
+        {
+           var currentUser = db.Users.Where(u => u.Id == User.Identity.GetUserId()).Single();            
+           int? id = db.Employees.Where(e => e.Email == currentUser.Email).Single().ID;           
+           return RedirectToAction("Index", id);
+        }
         public ActionResult Index(int? id)
         {
-            var currentUser = db.Users.Where(u => u.Id == User.Identity.GetUserId()).Single();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = db.Employees.Where(e => e.Email == currentUser.Email).Single();
+            Employee employee = db.Employees.Find(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -40,12 +45,12 @@ namespace Trash_Collector.Controllers
             var allCustomers = db.Customers.ToList(); 
 
             foreach (Customer c in allCustomers)
-            {       //Cant do c.Address directly?
+            {      
                 if (db.Addresses.Where(a => a.CustomerID == c.ID).Single().ZipCode == employee.ZipCode)
                 {
-                    if (c.WeeklyPickupDay == DateTime.Today.DayOfWeek && c.LastPickupDay.Value.Date < DateTime.Today.Date)
+                    if (c.WeeklyPickupDay == DateTime.Today.DayOfWeek)
                     {
-                        if (c.PickupPauseDate == null || DateTime.Today.CompareTo(c.PickupPauseDate) <= 0)
+                        if (c.LastPickupDay == null || c.LastPickupDay.Value.Date < DateTime.Today.Date && c.PickupPauseDate == null || DateTime.Today.CompareTo(c.PickupPauseDate) <= 0)
                         {
                             todaysCustomers.Add(c);
                         }
@@ -58,8 +63,7 @@ namespace Trash_Collector.Controllers
                 }                
             }
             employeeCustomers.Employee = employee;
-            employeeCustomers.LocalCustomers = todaysCustomers;
-            employeeCustomers.ChargedCustomers = ChargedCustomers;
+            employeeCustomers.LocalCustomers = todaysCustomers;            
             return View(employeeCustomers);
             // model needs to be updated in the view
         }
@@ -71,8 +75,7 @@ namespace Trash_Collector.Controllers
             {
                 if (c.LastPickupDay.Value.Date < DateTime.Today.Date)
                 {
-                    employeeCustomersViewModel.LocalCustomers.Remove(c);
-                    employeeCustomersViewModel.ChargedCustomers.Add(c);
+                    employeeCustomersViewModel.LocalCustomers.Remove(c);                   
                     db.Customers.Find(c.ID).AmountOwed += 7.5;
                     db.Customers.Find(c.ID).LastPickupDay = DateTime.Today.Date;
                 }
@@ -80,9 +83,7 @@ namespace Trash_Collector.Controllers
             db.SaveChanges();
             return View(employeeCustomersViewModel);
         }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpGet]
         public ActionResult Pickup(int? id)
         {
             if (id == null)
@@ -94,9 +95,18 @@ namespace Trash_Collector.Controllers
             {
                 return HttpNotFound();
             }
+
+            return RedirectToAction("CompletePickup", customer);
+        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult CompletePickup(Customer customer)
+        {
+            customer = db.Customers.Find(customer.ID);
             customer.LastPickupDay = DateTime.Today.Date;
+            customer.AmountOwed += 7.5;
             db.SaveChanges();
-            RedirectToAction("Index");
+            return RedirectToAction("Start");
         }
 
 

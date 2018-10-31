@@ -8,7 +8,6 @@ namespace Trash_Collector.Models
     public class EmployeeCustomersViewModel
     {
         public Employee Employee { get; set; }
-        public List<Customer> LocalCustomers { get; set; }
-        public List<Customer> ChargedCustomers { get; set; }
+        public List<Customer> LocalCustomers { get; set; }        
     }
 }
