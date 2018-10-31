@@ -7,13 +7,13 @@ namespace Trash_Collector.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class test1 : IMigrationMetadata
+    public sealed partial class addingboolpickeduptocustomer : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(test1));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(addingboolpickeduptocustomer));
         
         string IMigrationMetadata.Id
         {
-            get { return "201810301520292_test1"; }
+            get { return "201810311301556_adding bool picked up to customer"; }
         }
         
         string IMigrationMetadata.Source

@@ -215,9 +215,9 @@
     <Compile Include="Migrations\201810291235193_Making DateTime Properties Nullable to see if that stops error.Designer.cs">
       <DependentUpon>201810291235193_Making DateTime Properties Nullable to see if that stops error.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810301520292_test1.cs" />
-    <Compile Include="Migrations\201810301520292_test1.Designer.cs">
-      <DependentUpon>201810301520292_test1.cs</DependentUpon>
+    <Compile Include="Migrations\201810311301556_adding bool picked up to customer.cs" />
+    <Compile Include="Migrations\201810311301556_adding bool picked up to customer.Designer.cs">
+      <DependentUpon>201810311301556_adding bool picked up to customer.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -376,8 +376,8 @@
     <EmbeddedResource Include="Migrations\201810291235193_Making DateTime Properties Nullable to see if that stops error.resx">
       <DependentUpon>201810291235193_Making DateTime Properties Nullable to see if that stops error.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810301520292_test1.resx">
-      <DependentUpon>201810301520292_test1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810311301556_adding bool picked up to customer.resx">
+      <DependentUpon>201810311301556_adding bool picked up to customer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
@@ -420,7 +420,7 @@
     </ItemGroup>
     <MakeDir Directories="$(WebProjectOutputDir)\bin\roslyn" />
     <Copy SourceFiles="@(RoslynFiles)" DestinationFolder="$(WebProjectOutputDir)\bin\roslyn" SkipUnchangedFiles="true" Retries="$(CopyRetryCount)" RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)" />
-</Target>
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

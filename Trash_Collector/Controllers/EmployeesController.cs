@@ -35,7 +35,7 @@ namespace Trash_Collector.Controllers
             }
             EmployeeCustomersViewModel employeeCustomers = new EmployeeCustomersViewModel();
             List<Customer> todaysCustomers = new List<Customer>();
-            List<Customer> PaidCustomers = new List<Customer>();
+            List<Customer> ChargedCustomers = new List<Customer>();
             var allCustomers = db.Customers.ToList(); 
 
             foreach (Customer c in allCustomers)
@@ -58,10 +58,27 @@ namespace Trash_Collector.Controllers
             }
             employeeCustomers.Employee = employee;
             employeeCustomers.LocalCustomers = todaysCustomers;
-            employeeCustomers.ChargedCustomers = PaidCustomers;
+            employeeCustomers.ChargedCustomers = ChargedCustomers;
             return View(employeeCustomers);
             // model needs to be updated in the view
-        }        
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(EmployeeCustomersViewModel employeeCustomersViewModel)
+        {
+            foreach (Customer c in employeeCustomersViewModel.LocalCustomers)
+            {
+                if (c.IsPickedUp)
+                {
+                    employeeCustomersViewModel.LocalCustomers.Remove(c);
+                    employeeCustomersViewModel.ChargedCustomers.Add(c);
+                    db.Customers.Find(c.ID).AmountOwed += 7.5;
+                    db.Customers.Find(c.ID).IsPickedUp = true;
+                }
+            }            
+            db.SaveChanges();
+            return View(employeeCustomersViewModel);
+        }
 
         public ActionResult Create()
         {
@@ -86,24 +103,25 @@ namespace Trash_Collector.Controllers
 
             return View(employee);
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult WeeklyBill(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Customer customer = db.Customers.Find(id);
-            if (customer == null)
-            {
-                return HttpNotFound();
-            }
-            customer.AmountOwed += 7.5;
-            return RedirectToAction("Index", new { id = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId()).Id });
-        }
+        
+        //public ActionResult WeeklyBill(EmployeeCustomersViewModel employeeCustomersViewModel)
+        //{
 
-        // What dis below?
+        //    if (employeeCustomersViewModel == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Customer customer = db.Customers.Find(employeeCustomersViewModel.ChargedCustomer);
+        //    if (customer == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    customer.AmountOwed += 7.5;
+        //    db.SaveChanges();
+        //    employeeCustomersViewModel.LocalCustomers.Remove(customer);            
+        //    return View("Index", employeeCustomersViewModel);
+        //}
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
