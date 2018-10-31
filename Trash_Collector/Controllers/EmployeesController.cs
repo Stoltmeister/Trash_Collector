@@ -65,8 +65,10 @@ namespace Trash_Collector.Controllers
 
         public ActionResult Create()
         {
-            Employee employee = new Employee();
-            return View(employee);
+            Employee e = new Employee();
+            EmployeeCustomersViewModel ecv = new EmployeeCustomersViewModel();
+            ecv.Employee = e;
+            return View(ecv);
         }
 
         [HttpPost]
@@ -79,7 +81,7 @@ namespace Trash_Collector.Controllers
                 employee.Email = db.Users.Where(u => u.Id == userID).Single().Email;
                 db.Employees.Add(employee);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", employee.ID);
             }
 
             return View(employee);
