@@ -21,6 +21,32 @@ namespace Trash_Collector.Controllers
             db = new ApplicationDbContext();
         }
 
+        public List<Customer> GetDaysCustomers(DateTime day, int zipCode)
+        {
+            List<Customer> todaysCustomers = new List<Customer>();
+            var allCustomers = db.Customers.ToList();
+
+            foreach (Customer c in allCustomers)
+            {
+                if (db.Addresses.Where(a => a.CustomerID == c.ID).Single().ZipCode == zipCode)
+                {
+                    if (c.WeeklyPickupDay == day.DayOfWeek)
+                    {
+                        if (c.LastPickupDay == null || c.LastPickupDay.Value.Date < DateTime.Today.Date && c.PickupPauseDate == null || DateTime.Today.CompareTo(c.PickupPauseDate) <= 0)
+                        {
+                            todaysCustomers.Add(c);
+                        }
+                    }
+                    else if (c.SpecialPickupDay == day)
+                    {
+                        //Test this to see if time messes it up, This overrides pause dates because they likely just want a special pickup but not weekly
+                        todaysCustomers.Add(c);
+                    }
+                }
+            }
+            return todaysCustomers;
+        }
+
         // GET: Employees        
         public ActionResult Index()
         {
@@ -61,9 +87,9 @@ namespace Trash_Collector.Controllers
             }
             employeeCustomers.Employee = employee;
             employeeCustomers.LocalCustomers = todaysCustomers;            
-            return View(employeeCustomers);
-            // model needs to be updated in the view
+            return View(employeeCustomers);            
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Index(EmployeeCustomersViewModel employeeCustomersViewModel)
