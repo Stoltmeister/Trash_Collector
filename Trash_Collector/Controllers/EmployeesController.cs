@@ -22,7 +22,7 @@ namespace Trash_Collector.Controllers
         }
 
         public static DateTime GetNextWeekday(DateTime start, DayOfWeek day)
-        {            
+        {
             int daysToAdd = ((int)day - (int)start.DayOfWeek + 7) % 7;
             return start.AddDays(daysToAdd);
         }
@@ -34,20 +34,27 @@ namespace Trash_Collector.Controllers
 
             foreach (Customer c in allCustomers)
             {
-                if (db.Addresses.Where(a => a.CustomerID == c.ID).Single().ZipCode == zipCode)
+                try
                 {
-                    if (c.WeeklyPickupDay == day.DayOfWeek)
+                    if (db.Addresses.Where(a => a.CustomerID == c.ID).Single().ZipCode == zipCode)
                     {
-                        if (c.LastPickupDay == null || c.LastPickupDay.Value.Date < DateTime.Today.Date && c.PickupPauseDate == null || DateTime.Today.CompareTo(c.PickupPauseDate) <= 0)
+                        if (c.WeeklyPickupDay == day.DayOfWeek)
                         {
+                            if (c.LastPickupDay == null || c.LastPickupDay.Value.Date < DateTime.Today.Date && c.PickupPauseDate == null || DateTime.Today.CompareTo(c.PickupPauseDate) <= 0)
+                            {
+                                todaysCustomers.Add(c);
+                            }
+                        }
+                        else if (c.SpecialPickupDay == day)
+                        {
+                            //Test this to see if time messes it up, This overrides pause dates because they likely just want a special pickup but not weekly
                             todaysCustomers.Add(c);
                         }
                     }
-                    else if (c.SpecialPickupDay == day)
-                    {
-                        //Test this to see if time messes it up, This overrides pause dates because they likely just want a special pickup but not weekly
-                        todaysCustomers.Add(c);
-                    }
+                }
+                catch (Exception)
+                {
+                    // in case of empty list so it doesnt get mad ;)
                 }
             }
             return todaysCustomers;
@@ -69,10 +76,10 @@ namespace Trash_Collector.Controllers
                 return HttpNotFound();
             }
             EmployeeCustomersViewModel employeeCustomers = new EmployeeCustomersViewModel();
-            List<Customer> todaysCustomers = GetDaysCustomers(DateTime.Today, employee.ZipCode);            
+            List<Customer> todaysCustomers = GetDaysCustomers(DateTime.Today, employee.ZipCode);
             employeeCustomers.Employee = employee;
-            employeeCustomers.LocalCustomers = todaysCustomers;            
-            return View(employeeCustomers);            
+            employeeCustomers.LocalCustomers = todaysCustomers;
+            return View(employeeCustomers);
         }
 
         [HttpPost]
@@ -83,7 +90,7 @@ namespace Trash_Collector.Controllers
             {
                 if (c.LastPickupDay.Value.Date < DateTime.Today.Date)
                 {
-                    employeeCustomersViewModel.LocalCustomers.Remove(c);                   
+                    employeeCustomersViewModel.LocalCustomers.Remove(c);
                     db.Customers.Find(c.ID).AmountOwed += 7.5;
                     db.Customers.Find(c.ID).LastPickupDay = DateTime.Today.Date;
                 }
@@ -111,7 +118,7 @@ namespace Trash_Collector.Controllers
             List<Customer> todaysCustomers = GetDaysCustomers(dayToCheck, employee.ZipCode);
             employeeCustomers.Employee = employee;
             employeeCustomers.LocalCustomers = todaysCustomers;
-            return View("Index",employeeCustomers);
+            return View("Index", employeeCustomers);
         }
 
         [HttpGet]
@@ -136,7 +143,7 @@ namespace Trash_Collector.Controllers
             customer = db.Customers.Find(customer.ID);
             customer.LastPickupDay = DateTime.Today.Date;
             customer.AmountOwed += 7.5;
-            db.SaveChanges();            
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -178,7 +185,7 @@ namespace Trash_Collector.Controllers
 
             return View(employee);
         }
-        
+
         //public ActionResult WeeklyBill(EmployeeCustomersViewModel employeeCustomersViewModel)
         //{
 
