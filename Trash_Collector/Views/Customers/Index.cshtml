@@ -28,7 +28,11 @@
             {
                 <text><strong>No Special Pickups Scheduled ($13 Each)</strong></text>
             }
-            <b>@Model.SpecialPickupDay.Value.ToShortDateString()</b>
+            else
+            {
+                <b>@Model.SpecialPickupDay.Value.ToShortDateString()</b>
+            }
+
         </p>
         <p><a class="btn btn-default" href="@Url.Action("SpecialPickup", "Customers", new { id = Model.ID })">Schedule a Pickup &raquo;</a></p>
     </div>

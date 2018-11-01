@@ -56,11 +56,11 @@ namespace Trash_Collector.Controllers
         public ActionResult Create()
         {
             Address address = new Address();
-            Customer customer = new Customer();
+            Customer customer = new Customer();            
             NewCustomerViewModel viewmodel = new NewCustomerViewModel();
             viewmodel.CustomerDetails = customer;
             viewmodel.AddressInformation = address;
-            
+            viewmodel.ID = 0;
             return View(viewmodel);
         }
 
@@ -81,7 +81,7 @@ namespace Trash_Collector.Controllers
             db.Addresses.Add(viewmodel.AddressInformation);            
             //newCustomer.AddressID = db.Addresses.Where(a => a == viewmodel.AddressInformation).Single().CustomerID;
             db.SaveChanges();
-            return RedirectToAction("Index", newCustomer.ID);            
+            return RedirectToAction("Index", new { id = newCustomer.ID });            
         }
 
         // GET: Customers/Edit/5
@@ -110,7 +110,7 @@ namespace Trash_Collector.Controllers
             {
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index", customer.ID);
+                return RedirectToAction("Index", new { id = customer.ID });
             }
             return View(customer);
         }
@@ -138,7 +138,7 @@ namespace Trash_Collector.Controllers
             Customer customer = db.Customers.Find(id);
             db.Customers.Remove(customer);
             db.SaveChanges();
-            return RedirectToAction("Index", customer.ID);
+            return RedirectToAction("Index", new { id = customer.ID });
         }
 
         public ActionResult WeeklyPickup(int? id)
@@ -162,7 +162,7 @@ namespace Trash_Collector.Controllers
             var currentCustomer = db.Customers.Where(c => c.ID == customer.ID).Single();
             currentCustomer.WeeklyPickupDay = customer.WeeklyPickupDay;
             db.SaveChanges();
-            return RedirectToAction("Index", currentCustomer.ID);
+            return RedirectToAction("Index", new { id = currentCustomer.ID });
         }
 
         public ActionResult SpecialPickup(int? id)
@@ -187,7 +187,7 @@ namespace Trash_Collector.Controllers
             currentCustomer.SpecialPickupDay = customer.SpecialPickupDay;
             currentCustomer.AmountOwed += 30;
             db.SaveChanges();
-            return RedirectToAction("Index", currentCustomer.ID);
+            return RedirectToAction("Index", new { id = currentCustomer.ID });
         }
 
         public ActionResult Billing(int? id)

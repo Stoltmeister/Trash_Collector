@@ -11,5 +11,6 @@ namespace Trash_Collector.Models
         public Customer CustomerDetails { get; set; }
         [Display(Name = "Address")]
         public Address AddressInformation { get; set; }
+        public int? ID { get; set; }
     }
 }

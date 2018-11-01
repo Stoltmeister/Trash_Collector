@@ -182,7 +182,6 @@ namespace Trash_Collector.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
-                    // Below can be a global method?
                     var r = UserManager.GetRoles(user.Id);
                     if (r[0].ToString() == "Employee")
                     {                       
