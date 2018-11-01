@@ -17,12 +17,7 @@ namespace Trash_Collector.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Customers
-        //public ActionResult Index(Customer currentCustomer)
-        //{            
-        //    return View(currentCustomer);            
-        //}
-
+        
         public ActionResult Index(int? id)
         {
             if (id == null)
@@ -36,8 +31,7 @@ namespace Trash_Collector.Controllers
             }
             return View(customer);
         }
-
-        // GET: Customers/Details/5
+        
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -51,8 +45,8 @@ namespace Trash_Collector.Controllers
             }
             return View(customer);
         }
-        [HttpGet]
-        // GET: Customers/Create
+
+        [HttpGet]        
         public ActionResult Create()
         {
             Address address = new Address();
@@ -63,8 +57,7 @@ namespace Trash_Collector.Controllers
             viewmodel.ID = 0;
             return View(viewmodel);
         }
-
-        // POST: Customers/Create
+        
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -74,12 +67,10 @@ namespace Trash_Collector.Controllers
             string userID = User.Identity.GetUserId();
             var newCustomer = new Customer();            
             newCustomer.Email = db.Users.Where(u => u.Id == userID).Single().Email;
-            //maybe too many lines
             newCustomer.FirstName = viewmodel.CustomerDetails.FirstName;
             newCustomer.LastName = viewmodel.CustomerDetails.LastName;            
             db.Customers.Add(newCustomer);
             db.Addresses.Add(viewmodel.AddressInformation);            
-            //newCustomer.AddressID = db.Addresses.Where(a => a == viewmodel.AddressInformation).Single().CustomerID;
             db.SaveChanges();
             return RedirectToAction("Index", new { id = newCustomer.ID });            
         }
@@ -99,7 +90,6 @@ namespace Trash_Collector.Controllers
             return View(customer);
         }
 
-        // POST: Customers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -115,7 +105,6 @@ namespace Trash_Collector.Controllers
             return View(customer);
         }
 
-        // GET: Customers/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)

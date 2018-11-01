@@ -47,7 +47,6 @@ namespace Trash_Collector.Controllers
                         }
                         else if (c.SpecialPickupDay == day)
                         {
-                            //Test this to see if time messes it up, This overrides pause dates because they likely just want a special pickup but not weekly
                             todaysCustomers.Add(c);
                         }
                     }
@@ -185,24 +184,6 @@ namespace Trash_Collector.Controllers
 
             return View(employee);
         }
-
-        //public ActionResult WeeklyBill(EmployeeCustomersViewModel employeeCustomersViewModel)
-        //{
-
-        //    if (employeeCustomersViewModel == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Customer customer = db.Customers.Find(employeeCustomersViewModel.ChargedCustomer);
-        //    if (customer == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    customer.AmountOwed += 7.5;
-        //    db.SaveChanges();
-        //    employeeCustomersViewModel.LocalCustomers.Remove(customer);            
-        //    return View("Index", employeeCustomersViewModel);
-        //}
 
         public ActionResult MapView(int? id)
         {
