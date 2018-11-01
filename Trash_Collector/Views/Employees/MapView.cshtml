@@ -1,0 +1,89 @@
+﻿@model Trash_Collector.Models.NewCustomerViewModel
+@{
+    ViewBag.Title = "MapView";
+}
+<style>
+    #map {
+        height: 300px;
+        width: 55%;
+    }
+</style>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<h2>MapView</h2>
+<br />
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.CustomerDetails.FirstName)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.CustomerDetails.FirstName)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.CustomerDetails.LastName)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.CustomerDetails.LastName)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.AddressInformation)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.AddressInformation.StreetNumber) @Html.DisplayFor(model => model.AddressInformation.Street)
+    </dd>
+
+    <dd>
+        @Html.DisplayFor(model => model.AddressInformation.City), @Html.DisplayFor(model => model.AddressInformation.State) @Html.DisplayFor(model => model.AddressInformation.ZipCode)
+    </dd>
+</dl>
+<div id="map"></div>
+<script>
+    function initMap(latitude, longitude) {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 12,
+            center: { lat: latitude, lng: longitude }
+        });
+        var marker = new google.maps.Marker({
+            map: map,
+            position: { lat: latitude, lng: longitude }
+        });
+        var infoWindow = new google.maps.InfoWindow({
+                   content: 'Go Here'
+         });
+        marker.addListener('click', function () {
+        infoWindow.open(map, marker);
+         });
+    }
+
+    function geocode() {
+        // Prevent actual submit
+        //e.preventDefault();
+
+        var location = '@ViewBag.AddressInfo';
+
+        axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+            params: {
+                address: location,
+                key: '@ViewBag.ApiKey'
+            }
+        })
+            .then(function (response) {
+                console.log(response);
+                var lat = response.data.results[0].geometry.location.lat;
+                var lng = response.data.results[0].geometry.location.lng;
+
+                initMap(lat, lng);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+</script>
+<script async defer
+        src="@ViewBag.MapCall">
+</script>

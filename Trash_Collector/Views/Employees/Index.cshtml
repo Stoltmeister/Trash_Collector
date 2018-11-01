@@ -14,7 +14,7 @@
             <br />
             <text>@Model.LocalCustomers[i].Address.StreetNumber @Model.LocalCustomers[i].Address.Street @Model.LocalCustomers[i].Address.City</text>
             <br />
-            @Html.ActionLink("Map View", "Map View", new { id = Model.LocalCustomers[i].ID }) &nbsp;&nbsp;&nbsp;&nbsp;
+            @Html.ActionLink("Map View", "MapView", new { id = Model.LocalCustomers[i].ID }) &nbsp;&nbsp;&nbsp;&nbsp;
             @Html.ActionLink("Mark Complete", "Pickup", new { id = Model.LocalCustomers[i].ID })
         </div>
     </div>

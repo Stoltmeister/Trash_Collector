@@ -58,7 +58,7 @@ namespace Trash_Collector.Controllers
             Address address = new Address();
             Customer customer = new Customer();
             NewCustomerViewModel viewmodel = new NewCustomerViewModel();
-            viewmodel.CustomerDetials = customer;
+            viewmodel.CustomerDetails = customer;
             viewmodel.AddressInformation = address;
             
             return View(viewmodel);
@@ -75,8 +75,8 @@ namespace Trash_Collector.Controllers
             var newCustomer = new Customer();            
             newCustomer.Email = db.Users.Where(u => u.Id == userID).Single().Email;
             //maybe too many lines
-            newCustomer.FirstName = viewmodel.CustomerDetials.FirstName;
-            newCustomer.LastName = viewmodel.CustomerDetials.LastName;            
+            newCustomer.FirstName = viewmodel.CustomerDetails.FirstName;
+            newCustomer.LastName = viewmodel.CustomerDetails.LastName;            
             db.Customers.Add(newCustomer);
             db.Addresses.Add(viewmodel.AddressInformation);            
             //newCustomer.AddressID = db.Addresses.Where(a => a == viewmodel.AddressInformation).Single().CustomerID;

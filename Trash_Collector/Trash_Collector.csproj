@@ -189,6 +189,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiKeys.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -354,6 +355,7 @@
     <Content Include="Views\Employees\Index.cshtml" />
     <Content Include="Views\Customers\PauseService.cshtml" />
     <Content Include="Views\Employees\GetDay.cshtml" />
+    <Content Include="Views\Employees\MapView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

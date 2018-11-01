@@ -197,6 +197,27 @@ namespace Trash_Collector.Controllers
         //    return View("Index", employeeCustomersViewModel);
         //}
 
+        public ActionResult MapView(int? id)
+        {
+            NewCustomerViewModel customerViewModel = new NewCustomerViewModel();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Customer customer = db.Customers.Find(id);
+            Address address = db.Addresses.Find(id);
+            customerViewModel.AddressInformation = address;
+            customerViewModel.CustomerDetails = customer;
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.AddressInfo = address.StreetNumber + " " + address.Street + " " + address.ZipCode;
+            ViewBag.MapCall = ApiKeys.MapCall;
+            ViewBag.ApiKey = ApiKeys.GeoCodeKey;
+            return View(customerViewModel);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
