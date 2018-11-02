@@ -193,7 +193,7 @@ namespace Trash_Collector.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Customer customer = db.Customers.Find(id);
-            Address address = db.Addresses.Find(id);
+            Address address = db.Addresses.Find(customer.AddressID);
             customerViewModel.AddressInformation = address;
             customerViewModel.CustomerDetails = customer;
             if (customer == null)
