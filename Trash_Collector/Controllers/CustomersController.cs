@@ -174,7 +174,7 @@ namespace Trash_Collector.Controllers
         {
             var currentCustomer = db.Customers.Where(c => c.ID == customer.ID).Single();
             currentCustomer.SpecialPickupDay = customer.SpecialPickupDay;
-            currentCustomer.AmountOwed += 30;
+            currentCustomer.AmountOwed += 5.5;
             db.SaveChanges();
             return RedirectToAction("Index", new { id = currentCustomer.ID });
         }

@@ -36,7 +36,7 @@ namespace Trash_Collector.Controllers
             {
                 try
                 {
-                    if (db.Addresses.Where(a => a.CustomerID == c.ID).Single().ZipCode == zipCode)
+                    if (db.Addresses.Where(a => a.CustomerID == c.AddressID).Single().ZipCode == zipCode)
                     {
                         if (c.WeeklyPickupDay == day.DayOfWeek)
                         {
